@@ -4,7 +4,7 @@
  *
  * @copyright 2016 Bhavyanshu Parasher (https://bhavyanshu.me)
  * @license   http://www.apache.org/licenses/LICENSE-2.0.txt Apache License
- * @link      https://bhavyanshu.me/VIDsys
+ * @link      https://bhavyanshu.me/pages/openvid_sys/
  */
 namespace openvidsys\Http\Controllers\Universal;
 

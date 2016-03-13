@@ -8,7 +8,7 @@ Coming soon!
 
 ### Documentation for Developers
 
-Coming soon!
+[Work in Progress](https://bhavyanshu.me/pages/openvid_sys/)
 
 ### Licenses
 
