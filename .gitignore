@@ -10,10 +10,7 @@ composer.phar
 Thumbs.db
 .vagrant*
 resources/assets/vendor
-public/adminlte/plugins/*.md
-public/adminlte/plugins/*/*.md
-public/adminlte/plugins/*/*/*.md
-public/adminlte/plugins/*/*/*/*.md
+public/adminlte/plugins
 docgen.sh
 phpdoc.dist.xml
 /public/docs
