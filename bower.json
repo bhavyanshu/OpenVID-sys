@@ -1,0 +1,13 @@
+{
+  "name": "btdb2b",
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "admin-lte": "*",
+    "jquery-ui": "*",
+    "dropzone": "*",
+    "parsleyjs": "*",
+    "font-awesome":"*",
+    "ionicons":"*",
+    "datatables.net":"*"
+  }
+}

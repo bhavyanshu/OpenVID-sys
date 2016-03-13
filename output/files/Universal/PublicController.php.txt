@@ -1,0 +1,106 @@
+<?php
+/**
+ * OpenVID-sys
+ *
+ * @copyright 2016 Bhavyanshu Parasher (https://bhavyanshu.me)
+ * @license   http://www.apache.org/licenses/LICENSE-2.0.txt Apache License
+ * @link      https://bhavyanshu.me/VIDsys
+ */
+namespace vidsys\Http\Controllers\Universal;
+
+use DB;
+use Hash;
+use Validator;
+use Response;
+use Datatables;
+use File;
+use Carbon\Carbon;
+
+use Illuminate\Http\Request;
+
+use vidsys\User;
+use vidsys\Model\ResProfile;
+use vidsys\Model\OrgProfile;
+use vidsys\Model\Product;
+use vidsys\Model\Vulnerability;
+use vidsys\Common\Utility;
+use vidsys\Http\Requests;
+use vidsys\Http\Controllers\Controller;
+
+/**
+ * Controller for Publicly accessible features
+ */
+class PublicController extends Controller
+{
+  /**
+   * GET Publicly accessible view to search vulnerabilities.
+   *
+   * @return Response
+   */
+  protected function getSearchform() {
+    return view('noauth.public.searchvulnform');
+  }
+
+  /**
+   * POST To populate datatable with vulnerability information.
+   *
+   * @param Request $request
+   *
+   * @return Datatables
+   */
+  protected function getJVulnslist(Request $request) {
+    if(strlen(trim($request->search_p_name)) > 1 && strlen(trim($request->search_p_vendor_name)) < 1) {
+      $getvuls = Vulnerability::leftJoin('products', 'vulnerabilities.vul_prod_id', '=', 'products.p_id')
+      ->where('products.p_name', 'LIKE','%'.$request->search_p_name.'%')
+      ->where('p_status','=','1')
+      ->select('products.p_id as pid','vulnerabilities.vul_unique_id','vulnerabilities.vul_id','products.p_name','products.p_author_name','vulnerabilities.created_at');
+    }
+    elseif(strlen(trim($request->search_p_name)) > 1 && strlen(trim($request->search_p_vendor_name)) > 1) {
+      $getvuls = Vulnerability::leftJoin('products', 'vulnerabilities.vul_prod_id', '=', 'products.p_id')
+      ->where('products.p_name', 'LIKE', '%'.$request->search_p_name.'%')
+      ->where('products.p_author_name','LIKE','%'.$request->search_p_vendor_name.'%')
+      ->where('p_status','=','1')
+      ->select('products.p_id as pid','vulnerabilities.vul_unique_id','vulnerabilities.vul_id','products.p_name','products.p_author_name','vulnerabilities.created_at');
+    }
+    elseif(strlen(trim($request->search_vidsys_id)) > 1) {
+      $getvuls = Vulnerability::leftJoin('products', 'vulnerabilities.vul_prod_id', '=', 'products.p_id')
+      ->where('vulnerabilities.vul_unique_id', 'LIKE','%'.$request->search_vidsys_id.'%')
+      ->where('p_status','=','1')
+      ->select('products.p_id as pid','vulnerabilities.vul_unique_id','vulnerabilities.vul_id','products.p_name','products.p_author_name','vulnerabilities.created_at');
+    }
+    return Datatables::of($getvuls)
+    ->edit_column('vul_unique_id','<a href="/public/vulnerability/{{$vul_id}}">{{$vul_unique_id}}</a>')
+    ->edit_column('p_name','<a href="/public/product/{{$pid}}">{{$p_name}}</a>')
+    ->make(true);
+  }
+
+  /**
+   * GET Display view to show product information to public.
+   *
+   * @param int $productid
+   *
+   * @return Response
+   */
+  protected function getProductinfo($productid) {
+    $product = Product::where('p_id','=',$productid)->firstOrFail();
+    $vulns = Vulnerability::where('vul_prod_id','=',$product->p_id)->get();
+    $vulmeta = Utility::productGraphs($vulns);
+
+    return View('noauth.public.showproductinfo')->with('vulns',$vulns)->with('product',$product)->with('threat_values',$vulmeta['getthreatvalues'])->with('vultypes',$vulmeta['getvultype']);
+  }
+
+  /**
+   * GET Display view to show vulnerability report to public.
+   *
+   * @param int $vid
+   *
+   * @return Response
+   */
+  protected function getVulninfo($vid) {
+    $vuln = Vulnerability::where('vul_id','=',$vid)->firstOrFail();
+    $product = Product::with('user')->where('p_id','=',$vuln->vul_prod_id)->firstOrFail();
+    $vendorprof = Utility::getProfile($product->user);
+    return View('noauth.public.showvulninfo')->with('vuln',$vuln)->with('product',$product)->with('vendorprof',$vendorprof);
+  }
+}
+
