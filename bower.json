@@ -1,5 +1,5 @@
 {
-  "name": "btdb2b",
+  "name": "openvid-sys",
   "dependencies": {
     "bootstrap": "~3.3.6",
     "admin-lte": "*",
