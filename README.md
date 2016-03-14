@@ -8,7 +8,43 @@ Coming soon!
 
 ### Documentation for Developers
 
-[Work in Progress](https://bhavyanshu.me/pages/openvid_sys/)
+**Setup**
+
+* Grab the latest copy of this web app using `git clone https://github.com/bhavyanshu/OpenVID-sys.git`
+* Next run `composer install` in project root to get all framework related dependencies. If you have not installed composer, then install it first and then run this command.
+* Generate a new application key by running `php artisan key:generate` in project root.
+* Create a new database (via phpmyadmin or CLI). Put .env file in project root. In that .env file, add following details. Replace values specific to your db configuration and smtp configuration.
+
+```
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=YOUR-NEWLY-GENERATED-APP-KEY-HERE
+
+DB_HOST=localhost
+DB_DATABASE=DB_NAME
+DB_USERNAME=DB_USERNAME
+DB_PASSWORD=DB_PASSWORD
+
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+
+MAIL_DRIVER=smtp
+MAIL_HOST=mailtrap.io
+MAIL_PORT=2525
+MAIL_FROMADDRESS=no-reply@server.com
+MAIL_FROMNAME=no-reply
+MAIL_USERNAME=get-from-mailtrap.io
+MAIL_PASSWORD=get-from-mailtrap.io
+MAIL_ENCRYPTION=tls
+```
+* To test database and setup tables required by web app, run `php artisan migrate --seed`.
+* Next run `npm install` for laravel-elixir and other packages.
+* Then run `bower update` to pull in frontend related dependencies.
+* Finally run `gulp` to move the required frontend files to correct locations. If you don't have gulp, then install it first.
+* That's all. Now you can execute `php artisan serve` in project root to run the web app on your localhost.
+
+> [Don't forget to refer to the documentation - Work in progress](https://bhavyanshu.me/pages/openvid_sys/)
 
 ### Licenses
 
