@@ -58,9 +58,9 @@
                     'placeholder' => '','required',
                     'data-parsley-required-message' => 'This is required',
                     'data-parsley-minlength-message' => 'This cannot be less than 3 characters',
-                    'data-parsley-pattern-message' => 'This can only contain aphabets',
+                    'data-parsley-pattern-message' => 'This can only contain aphabets and (-.) character',
                     'data-parsley-trigger' => 'change focusout',
-                    'data-parsley-pattern' => '/^[a-zA-Z]*$/',
+                    'data-parsley-pattern' => '/^[ a-zA-Z.-]*$/',
                     'data-parsley-minlength' => '3')) !!}
                   </div>
                 </div>
@@ -73,9 +73,9 @@
                     'placeholder' => '','required',
                     'data-parsley-required-message' => 'This is required',
                     'data-parsley-minlength-message' => 'This cannot be less than 3 characters',
-                    'data-parsley-pattern-message' => 'This can only contain aphabets',
+                    'data-parsley-pattern-message' => 'This can only contain aphabets and (-.) character',
                     'data-parsley-trigger' => 'change focusout',
-                    'data-parsley-pattern' => '/^[a-zA-Z]*$/',
+                    'data-parsley-pattern' => '/^[ a-zA-Z.-]*$/',
                     'data-parsley-minlength' => '3')) !!}
                   </div>
                 </div>
@@ -88,9 +88,9 @@
                     'placeholder' => '','required',
                     'data-parsley-required-message' => 'This is required',
                     'data-parsley-minlength-message' => 'This cannot be less than 3 characters',
-                    'data-parsley-pattern-message' => 'This can only contain aphabets',
+                    'data-parsley-pattern-message' => 'This can only contain aphabets and (-.) character',
                     'data-parsley-trigger' => 'change focusout',
-                    'data-parsley-pattern' => '/^[a-zA-Z]*$/',
+                    'data-parsley-pattern' => '/^[ a-zA-Z.-]*$/',
                     'data-parsley-minlength' => '3')) !!}
                   </div>
                 </div>
@@ -103,9 +103,9 @@
                     'placeholder' => '','required',
                     'data-parsley-required-message' => 'This is required',
                     'data-parsley-minlength-message' => 'This cannot be less than 3 characters',
-                    'data-parsley-pattern-message' => 'This can only contain aphabets',
+                    'data-parsley-pattern-message' => 'This can only contain aphabets and (-.) character',
                     'data-parsley-trigger' => 'change focusout',
-                    'data-parsley-pattern' => '/^[a-zA-Z]*$/',
+                    'data-parsley-pattern' => '/^[ a-zA-Z.-]*$/',
                     'data-parsley-minlength' => '3')) !!}
                   </div>
                 </div>
