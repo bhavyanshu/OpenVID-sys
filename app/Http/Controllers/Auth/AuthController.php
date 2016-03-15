@@ -272,7 +272,7 @@ class AuthController extends Controller
           }
           Storage::makeDirectory('userfiles/uploads/'.$user->username); //auth access
           $message = 'You have successfully verified your account.';
-          if(Auth::check() && !Auth::user()->role_id==1) {
+          if(Auth::check()) {
             return redirect('user/profile/edit')->with('message','You have successfully verified your account. Kindly update information below to get complete access.');
           }
           else {
