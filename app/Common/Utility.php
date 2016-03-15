@@ -33,7 +33,8 @@ class Utility {
   //Helper function - Get profile by role - table resprofile, orgprofile
   public static function getProfile($gotuser) {
     if ($gotuser->role_id==1) {
-      return null;
+      $assocprofile = User::with('orgprofile')->find($gotuser->id)->orgprofile;
+      return $assocprofile;
     }
     elseif ($gotuser->role_id==2) {
       $assocprofile = User::with('orgprofile')->find($gotuser->id)->orgprofile;

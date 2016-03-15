@@ -9,6 +9,7 @@
 namespace openvidsys\Http\Controllers;
 
 use DB;
+use Hash;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -63,13 +64,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-      $userid = Auth::user()->id;
-      if (Auth::user()->role_id==1) { //admin
-        $profile = Utility::getProfile(Auth::user());
-        return view('users.admin.dashboard')
-        ->with('profile', $profile);
-      }
-      elseif (Auth::user()->role_id==2) { //org/vendor
+     if (Auth::user()->role_id==2) { //org/vendor
         $loggedin = Auth::user();
         $profile = Utility::getProfile($loggedin);
 

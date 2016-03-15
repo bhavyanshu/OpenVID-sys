@@ -211,8 +211,7 @@ return [
         'Html'      => 'Collective\Html\HtmlFacade',
         'Image'     => 'Intervention\Image\Facades\Image',
         'Datatables'=> 'Yajra\Datatables\Datatables',
-        'Notifynder'    => 'Fenos\Notifynder\Facades\Notifynder',
-
+        'Notifynder'=> 'Fenos\Notifynder\Facades\Notifynder',
     ],
 
 ];

@@ -128,10 +128,7 @@ class ProfileController extends Controller
      */
     protected function editform() {
       $userid = Auth::user()->id;
-      if (Auth::user()->role_id==1) {
-        return view('users.admin.profile.edit')->with('profile', $profile);
-      }
-      elseif (Auth::user()->role_id==2) {
+      if (Auth::user()->role_id==2) {
         $profile = Utility::getProfile(Auth::user());
         return view('users.org.profile.edit')->with('profile', $profile);
       }
@@ -284,10 +281,7 @@ class ProfileController extends Controller
      */
     protected function showNotifications() {
       $userid = Auth::user()->id;
-      if (Auth::user()->role_id==1) {
-        return view('users.admin.shownotifications')->with('profile', $profile);
-      }
-      elseif (Auth::user()->role_id==2) {
+      if (Auth::user()->role_id==2) {
         $profile = Utility::getProfile(Auth::user());
         return view('users.org.shownotifications')->with('profile', $profile);
       }

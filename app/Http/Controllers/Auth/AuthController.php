@@ -220,7 +220,6 @@ class AuthController extends Controller
                 $profile->first_name = ucfirst($request->first_name);
                 $profile->last_name = ucfirst($request->last_name);
                 $profile->save();
-
                 $confirmcode = array('confirmcode' => $confirmation_code);
                 \Mail::send('emails.confirmation', $confirmcode, function($message) use ($request) {
                     $message->to($this->user->email, ucfirst($request->first_name).' '.ucfirst($request->last_name))
@@ -273,7 +272,7 @@ class AuthController extends Controller
           }
           Storage::makeDirectory('userfiles/uploads/'.$user->username); //auth access
           $message = 'You have successfully verified your account.';
-          if(Auth::check()) {
+          if(Auth::check() && !Auth::user()->role_id==1) {
             return redirect('user/profile/edit')->with('message','You have successfully verified your account. Kindly update information below to get complete access.');
           }
           else {
@@ -317,8 +316,8 @@ class AuthController extends Controller
           $userid = $user->id;
           DB::table('users')
           ->where('id', $userid)
-          ->update(array('password'=>$passw,'confirmed'=>1));
-          return redirect()->route('dashboard')->with('message', 'Your password has been updated!.');
+          ->update(array('password'=>$passw,'confirmed'=>1,'blocked'=>0));
+          return redirect()->route('dashboard')->with('message', 'Your password has been updated!');
       }
       return redirect()->route('password_change')
         ->withInput()
