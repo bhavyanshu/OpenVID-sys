@@ -100,6 +100,8 @@
             </table>
           </div>
         </div>
+      @else
+        <p class="lead">No active vulnerabilities found.</p>
       @endif
       </div>
     </div>

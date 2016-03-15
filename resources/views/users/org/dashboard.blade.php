@@ -100,6 +100,8 @@
             </table>
           </div>
         </div>
+      @else
+        <p class="lead">No active vulnerabilities found.</p>
       @endif
       </div>
     </div>
@@ -113,12 +115,12 @@
           <div class="box-body">
             <table class="table table-striped table-condensed responsive">
               <thead>
-              <tr>
-                <th>OpenVID-sys ID</th>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>OpenVID-sys Score</th>
-              </tr>
+                <tr>
+                  <th>OpenVID-sys ID</th>
+                  <th>Product Name</th>
+                  <th>Description</th>
+                  <th>OpenVID-sys Score</th>
+                </tr>
               </thead>
               <tbody>
                 @foreach($highthreatvulns as $v)
