@@ -39,7 +39,7 @@ MAIL_PASSWORD=get-from-mailtrap.io
 MAIL_ENCRYPTION=tls
 ```
 * To test database and setup tables required by web app, run `php artisan migrate --seed`.
-* Next run `npm install` for laravel-elixir and other packages.
+* Next run `npm install` for laravel-elixir and other packages. Then run `npm install --save-dev del`.
 * Then run `bower update` to pull in frontend related dependencies.
 * Finally run `gulp` to move the required frontend files to correct locations. If you don't have gulp, then install it first.
 * That's all. Now you can execute `php artisan serve` in project root to run the web app on your localhost.
