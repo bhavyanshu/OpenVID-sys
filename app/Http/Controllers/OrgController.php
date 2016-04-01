@@ -142,7 +142,7 @@ class OrgController extends Controller
         $p->p_url = $request->p_url;
         $p->p_type = $request->p_type;
         $p->save();
-        return redirect()->route('dashboard')->with('message','A new product has been added.');
+        return redirect()->route('dashboard')->with('message','The product information has been added.');
       }
       else {
         return redirect()->back()->withInput()

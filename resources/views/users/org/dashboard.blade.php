@@ -20,7 +20,7 @@
     <div class="row">
       @if(Session::has('message'))
       <br>
-      <div class="alert alert-success errors">{{ Session::get('message') }}</div>
+      <div id="dm" class="alert alert-success errors col-md-10 col-md-offset-1">{{ Session::get('message') }}</div>
       @endif
     </div>
     <div class="row">
@@ -49,7 +49,7 @@
                     <td>
                       @if($v->threat_level <= 3)
                        <p class="text-center bg-yellow disabled">{{$v->threat_level}}</p>
-                      @elseif($v->threat_level >3 & $v->threat_level <= 7)
+                      @elseif($v->threat_level >3 && $v->threat_level <= 7)
                        <p class="text-center bg-orange-active">{{$v->threat_level}}</p>
                       @else
                        <p class="text-center bg-red">{{$v->threat_level}}</p>
@@ -88,7 +88,7 @@
                     <td>
                       @if($v->threat_level <= 3)
                        <p class="text-center bg-yellow disabled">{{$v->threat_level}}</p>
-                      @elseif($v->threat_level >3 & $v->threat_level <= 7)
+                      @elseif($v->threat_level >3 && $v->threat_level <= 7)
                        <p class="text-center bg-orange-active">{{$v->threat_level}}</p>
                       @else
                        <p class="text-center bg-red">{{$v->threat_level}}</p>
@@ -131,7 +131,7 @@
                     <td>
                       @if($v->threat_level <= 3)
                        <p class="text-center bg-yellow disabled">{{$v->threat_level}}</p>
-                      @elseif($v->threat_level >3 & $v->threat_level <= 7)
+                      @elseif($v->threat_level >3 && $v->threat_level <= 7)
                        <p class="text-center bg-orange-active">{{$v->threat_level}}</p>
                       @else
                        <p class="text-center bg-red">{{$v->threat_level}}</p>
@@ -150,4 +150,7 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+<script type="text/javascript">
+  setTimeout(function() { $("#dm").slideUp('slow') }, 5000);
+</script>
 @stop

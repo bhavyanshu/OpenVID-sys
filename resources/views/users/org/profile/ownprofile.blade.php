@@ -71,7 +71,7 @@
           <div class="tab-content">
             <div class="active tab-pane" id="lists">
               @if(count($vulns)<1)
-                <p class="lead">No vulnerabilities have been reported yet.</p>
+                <p class="lead">No vulnerabilities have been reported against your products yet.</p>
               @else
                 <h4>Vulnerabilities Reported against your products</h4>
               @endif
