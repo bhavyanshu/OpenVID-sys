@@ -217,7 +217,6 @@ class CommentController extends Controller
             if ($filevalidator->fails() )
             {
               //dd();
-
               return redirect()->back()->with('content', $contentmarkdown)
               ->withErrors($filevalidator);
             }
@@ -237,6 +236,7 @@ class CommentController extends Controller
         $comment->com_text = $contenthtml;
         $comment->save();
         $comment_id = $comment->com_id;
+        $comment_vul_id = $request->com_vul_id;
 
         $initcheck = 0;
         if($countfiles != 0) {
@@ -283,6 +283,12 @@ class CommentController extends Controller
               ->url('/vulnerability/'.$request->com_vul_id.'#comment-'.$comment_id)
               ->send();
         }
+        //bulk email to all users who have interacted on this vulnerability report
+        $vulninfo = array (
+                      'vulnid' => $comment_vul_id,
+                      'comment_id' => $comment_id
+                    );
+        $this->mailtoUsersWithComm($vulninfo);
         return redirect('/vulnerability/'.$request->com_vul_id.'#comment-'.$comment_id)->with('message','Comment Posted!.');
       }
       else {
@@ -329,7 +335,7 @@ class CommentController extends Controller
                       'to_user_email' => $iu->user->email,
                       'to_username' => $iu->user->username
                     );
-        \Mail::later(30,'emails.vulns.newcomment', $mailinfo, function($message) use ($mailinfo) {
+        \Mail::queue('emails.vulns.newcomment', $mailinfo, function($message) use ($mailinfo) {
             $message->to($mailinfo['to_user_email'], ucfirst($mailinfo['to_username']))
                 ->subject('New Comment on '.$mailinfo['vul_unique_id']);
         });
