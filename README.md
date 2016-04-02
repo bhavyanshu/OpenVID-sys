@@ -43,6 +43,8 @@ MAIL_ENCRYPTION=tls
 * Then run `bower update` to pull in frontend related dependencies.
 * Finally run `gulp` to move the required frontend files to correct locations. If you don't have gulp, then install it first.
 * That's all. Now you can execute `php artisan serve` in project root to run the web app on your localhost.
+* Bulk mailing is done using database queue. Make sure you add `* * * * * /path/to/php /path/to/artisan schedule:run 1>> /dev/null 2>&1` to your system crontab.
+
 
 > [Don't forget to refer to the documentation - Work in progress](https://bhavyanshu.me/pages/openvid_sys/)
 
