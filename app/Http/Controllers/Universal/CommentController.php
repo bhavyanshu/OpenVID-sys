@@ -136,7 +136,14 @@ class CommentController extends Controller
             }
           }
         }
-        
+
+        //bulk email to all users who have interacted on this vulnerability report
+        $vulninfo = array (
+                      'vulnid' => $comment_vul_id,
+                      'comment_id' => $comment_id
+                    );
+        $this->mailtoUsersWithComm($vulninfo);
+
         $response = array(
             'status' => 'success',
             'msg' => 'Comment Posted!',
@@ -299,5 +306,33 @@ class CommentController extends Controller
           'comments' => $comments,
       );
       return Response::json($response);
+    }
+
+    /**
+     * Utility function to send email to users who are part
+     * of certain vulnerability report.
+     *
+     * @param  array $vinfo
+     *
+     * @return void
+     */
+    protected function mailtoUsersWithComm($vinfo) {
+      $interactingUsers = Comment::with('user')->where('com_vul_id','=',$vinfo['vulnid'])->groupBy('user_com_id')->distinct()->get();
+      $vuluid = Vulnerability::where('vul_id','=',$vinfo['vulnid'])->select('vul_unique_id')->firstOrFail();
+      $vuid = $vuluid->vul_unique_id;
+      //dd();
+      foreach ($interactingUsers as $iu) {
+        $mailinfo = array (
+                      'vulnid' => $vinfo['vulnid'],
+                      'comment_id' => $vinfo['comment_id'],
+                      'vul_unique_id' => $vuid,
+                      'to_user_email' => $iu->user->email,
+                      'to_username' => $iu->user->username
+                    );
+        \Mail::later(30,'emails.vulns.newcomment', $mailinfo, function($message) use ($mailinfo) {
+            $message->to($mailinfo['to_user_email'], ucfirst($mailinfo['to_username']))
+                ->subject('New Comment on '.$mailinfo['vul_unique_id']);
+        });
+      }
     }
 }

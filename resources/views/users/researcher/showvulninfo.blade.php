@@ -314,7 +314,7 @@ $('#commentpost').on('submit', function(e) {
           headers: {
             'X-CSRF-TOKEN': $('[name="_token"]').val()
           },
-          data: $(this).serialize() +"&replyid=" + morevalue,
+          data: $(this).serialize(),
           success: function(response) {
             if(response.status === 'success') {
               setTimeout(function(){

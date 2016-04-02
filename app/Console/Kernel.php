@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+      // * * * * * php /path/to/artisan schedule:run 1>> /dev/null 2>&1
+      $schedule->command('queue:work')->everyMinute();
     }
 }
