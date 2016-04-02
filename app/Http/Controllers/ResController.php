@@ -151,13 +151,27 @@ class ResController extends Controller
           $vulnid = $v->vul_id;
           $from_user_id = Auth::user()->id;
           $getprod = Product::where('p_id','=',$request->vul_prod_id)->firstOrFail();
+
           $to_user_id = $getprod->user_p_id;
+          $to_userinfo = User::with('orgprofile')->find($to_user_id);
+          $to_user_email = $to_userinfo->email;
+          $to_user_firstname = $to_userinfo->orgprofile->first_name;
+          $to_user_lastname = $to_userinfo->orgprofile->last_name;
 
           Notifynder::category('user.postedflaw')
               ->from($from_user_id)
               ->to($to_user_id)
               ->url('/vulnerability/'.$vulnid)
               ->send();
+
+          $vulnid = array('vulnid' => $vulnid,
+                          'to_user_email' => $to_user_email,
+                          'to_user_firstname' => $to_user_firstname,
+                          'to_user_lastname' => $to_user_lastname);
+          \Mail::send('emails.vulns.registered', $vulnid, function($message) use ($vulnid) {
+              $message->to($vulnid['to_user_email'], ucfirst($vulnid['to_user_firstname']).' '.ucfirst($vulnid['to_user_lastname']))
+                  ->subject('New Vulnerability Reported against your product');
+          });
 
           return redirect()->route('dashboard')->with('message','Your new vulnerability has been registered.');
         }

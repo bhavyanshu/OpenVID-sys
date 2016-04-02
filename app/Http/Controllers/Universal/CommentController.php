@@ -94,8 +94,9 @@ class CommentController extends Controller
         $comment->com_text = $content->toJson()->html;
         $comment->save();
         $comment_id = $comment->com_id;
+        $comment_vul_id = $comment->com_vul_id;
 
-        if(Auth::user()->role_id == 2) {
+        if(Auth::user()->role_id == 2) { //vendor
           $from_user_id = Auth::user()->id;
           $getvuln = Vulnerability::where('vul_id','=',$request->com_vul_id)->firstOrFail();
           $to_user_id = $getvuln->user_vul_author_id;
@@ -103,7 +104,7 @@ class CommentController extends Controller
           Notifynder::category('user.postedcomment')
               ->from($from_user_id)
               ->to($to_user_id)
-              ->url('/vulnerability/'.$request->com_vul_id.'#comment-'.$comment_id)
+              ->url('/vulnerability/'.$comment_vul_id.'#comment-'.$comment_id)
               ->send();
 
           if(!is_null($request->replyto_id) && strlen(trim($request->replyto_id))>0 && $to_user_id != $request->replyto_id) {
@@ -118,7 +119,7 @@ class CommentController extends Controller
             }
           }
         }
-        elseif(Auth::user()->role_id == 3) {
+        elseif(Auth::user()->role_id == 3) { //res
           $from_user_id = Auth::user()->id;
           $getprod = Vulnerability::with('product')->where('vul_id','=',$request->com_vul_id)->firstOrFail();
           $to_user_id = $getprod->product->user_p_id;
@@ -135,6 +136,7 @@ class CommentController extends Controller
             }
           }
         }
+        
         $response = array(
             'status' => 'success',
             'msg' => 'Comment Posted!',

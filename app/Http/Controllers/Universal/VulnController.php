@@ -291,11 +291,27 @@ class VulnController extends Controller
           $from_user_id = Auth::user()->id;
           $to_user_id = $v->user_vul_author_id;
 
+          $to_userinfo = User::with('resprofile')->find($to_user_id);
+          $to_user_email = $to_userinfo->email;
+          $to_user_firstname = $to_userinfo->resprofile->first_name;
+          $to_user_lastname = $to_userinfo->resprofile->last_name;
+
           Notifynder::category('vendor.markedfixed')
               ->from($from_user_id)
               ->to($to_user_id)
               ->url('/vulnerability/'.$v->vul_id)
               ->send();
+
+          $vulninfo = array(
+                          'vulnid' => $v->vul_id,
+                          'vul_unique_id' => $request->vul_unique_id,
+                          'to_user_email' => $to_user_email,
+                          'to_user_firstname' => $to_user_firstname,
+                          'to_user_lastname' => $to_user_lastname);
+          \Mail::send('emails.vulns.statusupdated', $vulninfo, function($message) use ($vulninfo) {
+              $message->to($vulninfo['to_user_email'], ucfirst($vulninfo['to_user_firstname']).' '.ucfirst($vulninfo['to_user_lastname']))
+                  ->subject($vulninfo['vul_unique_id'].' Vulnerability status has been updated');
+          });
 
           return redirect('/vulnerability/'.$v->vul_id)->with('message','The information has been updated.');
         }
